@@ -115,8 +115,12 @@ public class UserController {
 	public String login(HttpServletRequest request, HttpSession session) {
 		String referer = request.getHeader("referer"); //로그인을 요청한 페이지
 //		log.debug("{}", referer);
-		String next = referer.replaceAll("http://15.165.176.151:8080/petever/", "");
-//		log.debug("{}", next);
+		//프로젝트 index 제외한 url추출
+		String next = referer.substring(referer.indexOf("petever")+8);
+		if(referer.contains("login.do")) {
+			return "redirect:/";
+		}
+		log.debug("next = {}", next);
 		session.setAttribute("next", next);
 		
 		return "user/login";
